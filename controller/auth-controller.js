@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const GetUserForAuth = require("../use-cases/auth/login-user");
-const UserRepository = require("../repository/json/user-repository");
+const UserRepository = require("../repository/postgre/user-repository");
 
 const getUserForAuth = new GetUserForAuth(new UserRepository());
 
