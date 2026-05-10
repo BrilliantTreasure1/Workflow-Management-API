@@ -11,7 +11,7 @@ module.exports = {
   async create(req, res) {
     try {
 
-      const userId = Number(req.params.userId);
+      const userId = req.user.userId
 
       if (!userId || isNaN(userId)) {
         return res.status(400).json({ error: "invalid user id" });
