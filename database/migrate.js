@@ -16,6 +16,25 @@ async function migrate() {
 
     console.log("✅ Users table created");
 
+      // Workflows table
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS workflows (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER NOT NULL,
+        title TEXT NOT NULL,
+        description TEXT,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP,
+
+        CONSTRAINT fk_workflow_user
+          FOREIGN KEY(user_id)
+          REFERENCES users(id)
+          ON DELETE CASCADE
+      );
+    `);
+
+    console.log("✅ Workflows table created");
+
     await pool.end();
 
   } catch (error) {
