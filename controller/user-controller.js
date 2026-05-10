@@ -1,6 +1,6 @@
 const CreateUser = require("../use-cases/user/create-user")
 const GetUserById = require("../use-cases/user/get-user-by-id")
-const UserRepository = require("../repository/postgre/user-repository")
+const UserRepository = require("../repository/json/user-repository")
 
 const userRepository = new UserRepository()
 
@@ -51,5 +51,5 @@ module.exports = {
       return res.status(404).json({ error: error.message });
     }
   }
-  
+
 }
