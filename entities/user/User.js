@@ -47,3 +47,5 @@ class User {
         this.validate();
     }
 }
+
+module.exports = User;

@@ -7,7 +7,14 @@ class CreateUser {
 
     async execute({ fullname, email, passwordHash, date }) {
         try {
-            const user = new User(null, fullname, email, passwordHash, date);
+             const user = new User({
+                id: undefined,
+                fullName: fullname,
+                email: email,
+                passwordHash: passwordHash,
+                createdAt: date ? new Date(date) : new Date()
+            });
+            
             const savedUser = await this.userRepository.create(user);
             return savedUser;
         } catch (error) {

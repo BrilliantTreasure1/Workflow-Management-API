@@ -1,0 +1,9 @@
+[
+  {
+    "id": 1,
+    "fullName": "Ali Ahmadi",
+    "email": "ali@test.com",
+    "passwordHash": "123456",
+    "createdAt": "2026-05-10T00:00:00.000Z"
+  }
+]
