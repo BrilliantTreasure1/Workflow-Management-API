@@ -1,4 +1,5 @@
 const User = require("../../entities/user/User")
+const bcrypt = require("bcrypt")
 
 class CreateUser {
     constructor(userRepository) {
@@ -7,11 +8,14 @@ class CreateUser {
 
     async execute({ fullname, email, passwordHash, date }) {
         try {
+
+            const password = await bcrypt.hash(passwordHash, 10);
+
              const user = new User({
                 id: undefined,
                 fullName: fullname,
                 email: email,
-                passwordHash: passwordHash,
+                passwordHash: password,
                 createdAt: date ? new Date(date) : new Date()
             });
             
