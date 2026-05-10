@@ -16,7 +16,7 @@ app.get('/users/:id', authMiddleware,userController.getById);
 
 app.post('/auth/login', authController.login);
 
-app.post('/users/:userId/workflows', authMiddleware , workflowController.create);
+app.post('/workflows', authMiddleware , workflowController.create);
 
 
 
