@@ -3,7 +3,7 @@
     "id": 1,
     "fullName": "Ali Ahmadi",
     "email": "ali@test.com",
-    "passwordHash": "123456",
+    "passwordHash": "$2b$10$zqPBmqL0ByxFcCm0N0ZFIe8lwuURDpI1bkKlYOHwIDkWQEjn7/Twa",
     "createdAt": "2026-05-10T00:00:00.000Z"
   }
 ]
