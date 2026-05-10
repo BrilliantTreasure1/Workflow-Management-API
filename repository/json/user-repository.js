@@ -42,6 +42,11 @@ class UserRepositoryJson {
 
         return user || null;
     }
+
+    async getUserByEmail(email) {
+    const users = await this._readFile();
+    return users.find(u => u.email === email);
+  }
 }
 
 module.exports = UserRepositoryJson;
