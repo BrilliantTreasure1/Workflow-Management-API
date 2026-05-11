@@ -20,9 +20,7 @@ app.post('/workflows', authMiddleware , workflowController.create);
 app.get('/workflows/me', authMiddleware , workflowController.findByUser);
 app.get('/workflows/:id', authMiddleware , workflowController.findById);
 app.put("/workflows/:id",authMiddleware,workflowController.update);
-
-
-
+app.delete("/workflows/:id",authMiddleware,workflowController.delete);
 
 
 
