@@ -81,6 +81,50 @@ async findByIdAndUser(id, userId) {
   });
 }
 
+async updateByIdAndUser({
+  workflowId,
+  userId,
+  title,
+  description
+}) {
+
+  const query = `
+    UPDATE workflows
+    SET
+      title = $1,
+      description = $2,
+      updated_at = NOW()
+    WHERE id = $3
+      AND user_id = $4
+    RETURNING id, user_id, title, description, created_at, updated_at
+  `;
+
+  const values = [
+    title,
+    description,
+    workflowId,
+    userId
+  ];
+
+  const result = await pool.query(query, values);
+
+  if (result.rows.length === 0) {
+    return null;
+  }
+
+  const row = result.rows[0];
+
+  return new Workflow({
+    id: row.id,
+    userId: row.user_id,
+    title: row.title,
+    description: row.description,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at
+  });
+}
+
+
 }
 
 module.exports = WorkflowRepositoryPostgres;
