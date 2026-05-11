@@ -2,6 +2,8 @@
 
 const CreateTask = require("../use-cases/task/create-task")
 const ListTasks = require("../use-cases/task/task-find-by-workflow-id")
+const GetSingleTasks = require("../use-cases/task/get-single-task")
+
 
 
 const TaskRepository = require("../repository/postgre/task-repository")
@@ -16,6 +18,11 @@ const createTaskUseCase = new CreateTask({
 })
 
 const listTaskUseCase = new ListTasks({
+  taskRepository,
+  workflowRepository
+})
+
+const getSingleTaskUseCase = new GetSingleTasks({
   taskRepository,
   workflowRepository
 })
@@ -93,6 +100,36 @@ module.exports = {
 
       return res.status(500).json({ error: error.message });
     }
+  },
+
+  async getSingle(req, res) {
+  try {
+
+    const workflowId = req.params.workflowId;
+    const taskId = req.params.taskId;
+    const userId = req.user.userId;
+
+    const task = await getSingleTaskUseCase.execute({
+      workflowId,
+      taskId,
+      userId
+    });
+
+    res.status(200).json(task);
+
+  } catch (error) {
+
+    if (error.message === "Workflow not found") {
+      return res.status(404).json({ error: error.message });
+    }
+
+    if (error.message === "Task not found") {
+      return res.status(404).json({ error: error.message });
+    }
+
+    res.status(400).json({ error: error.message });
   }
+}
+
 
 }
