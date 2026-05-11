@@ -7,8 +7,6 @@ const workflowController = require("./controller/workflow-controller")
 const taskController = require("./controller/task-controller")
 
 
-
-
 const app = express()
 app.use(express.json())
 
@@ -24,6 +22,8 @@ app.put("/workflows/:id",authMiddleware,workflowController.update);
 app.delete("/workflows/:id",authMiddleware,workflowController.delete);
 
 app.post('/workflows/:workflowId/tasks', authMiddleware,taskController.create);
+app.get('/workflows/:workflowId/tasks', authMiddleware,taskController.listByWorkflow);
+
 
 
 
