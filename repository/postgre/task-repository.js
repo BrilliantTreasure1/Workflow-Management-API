@@ -132,6 +132,48 @@ class TaskRepositoryPostgres {
   });
 }
 
+  async findById(taskId) {
+
+    const query = `
+      SELECT
+        id,
+        workflow_id,
+        title,
+        description,
+        priority,
+        status,
+        due_date,
+        created_at,
+        updated_at,
+        completed_at
+      FROM tasks
+      WHERE id = $1
+    `;
+
+    const values = [taskId];
+
+    const result = await pool.query(query, values);
+
+    if (!result.rows.length) {
+      return null;
+    }
+
+    const row = result.rows[0];
+
+    return new Task({
+      id: row.id,
+      workflowId: row.workflow_id,
+      title: row.title,
+      description: row.description,
+      priority: row.priority,
+      status: row.status,
+      dueDate: row.due_date,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
+      completedAt: row.completed_at
+    });
+  }
+
 
 }
 
