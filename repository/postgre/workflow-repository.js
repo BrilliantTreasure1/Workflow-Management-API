@@ -124,6 +124,27 @@ async updateByIdAndUser({
   });
 }
 
+async deleteByIdAndUser({ workflowId, userId }) {
+
+  const query = `
+    DELETE FROM workflows
+    WHERE id = $1
+      AND user_id = $2
+    RETURNING id
+  `;
+
+  const result = await pool.query(query, [
+    workflowId,
+    userId
+  ]);
+
+  if (result.rows.length === 0) {
+    return null;
+  }
+
+  return true;
+}
+
 
 }
 
