@@ -70,6 +70,42 @@ async findById(req, res) {
     }
     return res.status(500).json({ error: error.message });
   }
+},
+
+async update(req, res) {
+  try {
+
+    const { id } = req.params;
+
+    const userId = req.user.userId;
+
+    const {
+      title,
+      description
+    } = req.body;
+
+    const workflow =
+      await updateWorkflowUseCase.execute({
+        workflowId: id,
+        userId,
+        title,
+        description
+      });
+
+    return res.status(200).json(workflow);
+
+  } catch (error) {
+
+    if (error.message === "Workflow not found") {
+      return res.status(404).json({
+        error: error.message
+      });
+    }
+
+    return res.status(400).json({
+      error: error.message
+    });
+  }
 }
 
 
