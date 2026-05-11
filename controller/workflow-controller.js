@@ -2,12 +2,15 @@
 
 const CreateWorkflow = require("../use-cases/workflow/create-workflow");
 const FindWorkflowsByUser = require("../use-cases/workflow/find-workflow-by-user")
+const FindWorkflowById = require("../use-cases/workflow/get-workflow-detail")
 
 const WorkflowRepository = require("../repository/postgre/workflow-repository");
 
 const workflowRepository = new WorkflowRepository();
 const createWorkflowUseCase = new CreateWorkflow(workflowRepository);
 const findWorkflowsByUserUseCase = new FindWorkflowsByUser(workflowRepository)
+const getWorkflowDetailUseCase = new FindWorkflowById(workflowRepository)
+
 
 
 module.exports = {
@@ -47,6 +50,25 @@ module.exports = {
     return res.status(200).json(workflows);
   } catch (error) {
     return res.status(400).json({ error: error.message });
+  }
+},
+
+async findById(req, res) {
+  try {
+    const { id } = req.params;
+    const userId = req.user.userId; 
+
+    const workflow = await getWorkflowDetailUseCase.execute({ 
+      workflowId: id, 
+      userId 
+    });
+
+    return res.status(200).json(workflow);
+  } catch (error) {
+    if (error.message === "Workflow not found") {
+      return res.status(404).json({ error: error.message });
+    }
+    return res.status(500).json({ error: error.message });
   }
 }
 
