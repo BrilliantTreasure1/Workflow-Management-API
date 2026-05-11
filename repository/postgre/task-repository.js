@@ -174,6 +174,55 @@ class TaskRepositoryPostgres {
     });
   }
 
+   async update(taskId, updatedTask) {
+
+    const query = `
+      UPDATE tasks
+      SET
+        title = $1,
+        description = $2,
+        status = $3,
+        priority = $4,
+        due_date = $5,
+        updated_at = $6,
+        completed_at = $7
+      WHERE id = $8
+      RETURNING *
+    `
+
+    const values = [
+      updatedTask.title,
+      updatedTask.description,
+      updatedTask.status,
+      updatedTask.priority,
+      updatedTask.dueDate,
+      updatedTask.updatedAt,
+      updatedTask.completedAt,
+      taskId
+    ]
+
+    const result = await pool.query(query, values)
+
+    if (result.rows.length === 0) {
+      return null
+    }
+
+    const row = result.rows[0]
+
+    return new Task({
+      id: row.id,
+      workflowId: row.workflow_id,
+      title: row.title,
+      description: row.description,
+      status: row.status,
+      priority: row.priority,
+      dueDate: row.due_date,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
+      completedAt: row.completed_at
+    })
+  }
+
 
 }
 
