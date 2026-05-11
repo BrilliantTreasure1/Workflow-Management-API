@@ -41,9 +41,10 @@ module.exports = {
 
   async getById(req, res) {
     try {
-      const { id } = req.params;
 
-      const user = await getUserByIdUseCase.execute(id);
+      const userId = req.user.userId;
+
+      const user = await getUserByIdUseCase.execute(userId);
 
       return res.status(200).json(user);
 
