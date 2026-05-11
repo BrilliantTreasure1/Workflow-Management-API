@@ -19,8 +19,19 @@ class Task {
         this.workflowId = workflowId;
         this.title = title;
         this.description = description;
-        this.priority = priority;
-        this.status = status;
+
+        const normalizedPriority = priority
+            ? priority.toUpperCase()
+            : TaskPriority.MEDIUM;
+
+        this.priority = normalizedPriority;
+
+        const normalizedStatus = status
+            ? status.toUpperCase()
+            : TaskStatus.PENDING;
+
+
+        this.status = normalizedStatus;
         this.dueDate = dueDate ? new Date(dueDate) : null;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
