@@ -3,6 +3,10 @@
 const CreateWorkflow = require("../use-cases/workflow/create-workflow");
 const FindWorkflowsByUser = require("../use-cases/workflow/find-workflow-by-user")
 const FindWorkflowById = require("../use-cases/workflow/get-workflow-detail")
+const DeleteWorkflow = require("../use-cases/workflow/delete-workflow")
+const UpdateWorkflow = require("../use-cases/workflow/update-workflow")
+
+
 
 const WorkflowRepository = require("../repository/postgre/workflow-repository");
 
@@ -10,6 +14,9 @@ const workflowRepository = new WorkflowRepository();
 const createWorkflowUseCase = new CreateWorkflow(workflowRepository);
 const findWorkflowsByUserUseCase = new FindWorkflowsByUser(workflowRepository)
 const getWorkflowDetailUseCase = new FindWorkflowById(workflowRepository)
+const deleteWorkflowUseCase = new DeleteWorkflow(workflowRepository)
+const updateWorkflowUseCase = new UpdateWorkflow(workflowRepository)
+
 
 
 
