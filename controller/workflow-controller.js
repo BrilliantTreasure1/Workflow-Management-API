@@ -106,6 +106,34 @@ async update(req, res) {
       error: error.message
     });
   }
+},
+
+async delete(req, res) {
+  try {
+
+    const { id } = req.params;
+
+    const userId = req.user.userId;
+
+    await deleteWorkflowUseCase.execute({
+      workflowId: id,
+      userId
+    });
+
+    return res.status(204).send();
+
+  } catch (error) {
+
+    if (error.message === "Workflow not found") {
+      return res.status(404).json({
+        error: error.message
+      });
+    }
+
+    return res.status(400).json({
+      error: error.message
+    });
+  }
 }
 
 
