@@ -56,6 +56,31 @@ class WorkflowRepositoryPostgres {
     );
   }
 
+
+async findByIdAndUser(id, userId) {
+  const query = `
+    SELECT id, user_id, title, description, created_at, updated_at
+    FROM workflows
+    WHERE id = $1 AND user_id = $2
+  `;
+
+  const result = await pool.query(query, [id, userId]);
+
+  if (result.rows.length === 0) {
+    return null;
+  }
+
+  const row = result.rows[0];
+  return new Workflow({
+    id: row.id,
+    userId: row.user_id,
+    title: row.title,
+    description: row.description,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at
+  });
+}
+
 }
 
 module.exports = WorkflowRepositoryPostgres;
