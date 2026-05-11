@@ -4,6 +4,7 @@ const userController = require("./controller/user-controller")
 const authController = require("./controller/auth-controller")
 const authMiddleware = require("./middleware/auth")
 const workflowController = require("./controller/workflow-controller")
+const taskController = require("./controller/task-controller")
 
 
 
@@ -21,6 +22,9 @@ app.get('/workflows/me', authMiddleware , workflowController.findByUser);
 app.get('/workflows/:id', authMiddleware , workflowController.findById);
 app.put("/workflows/:id",authMiddleware,workflowController.update);
 app.delete("/workflows/:id",authMiddleware,workflowController.delete);
+
+app.post('/workflows/:workflowId/tasks', authMiddleware,taskController.create);
+
 
 
 
