@@ -25,10 +25,7 @@ app.post('/workflows/:workflowId/tasks', authMiddleware,taskController.create);
 app.get('/workflows/:workflowId/tasks', authMiddleware,taskController.listByWorkflow);
 app.get('/workflows/:workflowId/tasks/:taskId', authMiddleware,taskController.getSingle);
 app.put('/workflows/:workflowId/tasks/:taskId', authMiddleware,taskController.update);
-
-
-
-
+app.patch('/workflows/:workflowId/tasks/:taskId' , authMiddleware , taskController.updateStatus)
 
 
 
