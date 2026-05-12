@@ -5,6 +5,8 @@ const ListTasks = require("../use-cases/task/task-find-by-workflow-id")
 const GetSingleTasks = require("../use-cases/task/get-single-task")
 const UpdateTasks = require("../use-cases/task/update-task")
 const UpdateStatus = require("../use-cases/task/update-status")
+const DeleteTask = require("../use-cases/task/delete-task")
+
 
 
 
@@ -37,6 +39,11 @@ const updateTaskUseCase = new UpdateTasks({
 })
 
 const updateStatusUseCase = new UpdateStatus({
+  taskRepository,
+  workflowRepository
+})
+
+const deleteTaskUseCase = new DeleteTask({
   taskRepository,
   workflowRepository
 })
@@ -208,7 +215,7 @@ module.exports = {
 
        const { status } = req.body
 
-        const updatedTask = await updateTaskUseCase.execute({
+        const updatedTask = await updateStatusUseCase.execute({
         taskId,
         workflowId,
         userId,
@@ -239,7 +246,29 @@ module.exports = {
       })
     }
 
+  },
+
+  async delete(req, res) {
+  try {
+
+    const workflowId = req.params.workflowId
+    const taskId = req.params.taskId
+    const userId = req.user.userId
+
+    const result = await deleteTaskUseCase.execute({
+      taskId,
+      workflowId,
+      userId,
+    })
+
+    return res.json(result)
+  } catch (err) {
+    return res.status(400).json({
+      error: err.message
+    })
   }
+}
+
 
 
 }
