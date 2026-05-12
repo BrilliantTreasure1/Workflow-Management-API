@@ -223,6 +223,40 @@ class TaskRepositoryPostgres {
     })
   }
 
+  async updateStatus({taskId , status , completedAt}){
+    const query = `
+      UPDATE tasks
+      SET
+        status = $1,
+        completed_at = $2,
+        updated_at = NOW()
+      WHERE id = $3
+      RETURNING *
+    `;
+
+     const values = [status, completedAt, taskId];
+
+    const result = await pool.query(query, values);
+
+    if (result.rows.length === 0) return null;
+
+    const row = result.rows[0];
+
+    return new Task({
+      id: row.id,
+      workflowId: row.workflow_id,
+      title: row.title,
+      description: row.description,
+      priority: row.priority,
+      status: row.status,
+      dueDate: row.due_date,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
+      completedAt: row.completed_at
+    });
+    
+  }
+
 
 }
 
