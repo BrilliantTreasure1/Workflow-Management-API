@@ -4,6 +4,8 @@ const CreateTask = require("../use-cases/task/create-task")
 const ListTasks = require("../use-cases/task/task-find-by-workflow-id")
 const GetSingleTasks = require("../use-cases/task/get-single-task")
 const UpdateTasks = require("../use-cases/task/update-task")
+const UpdateStatus = require("../use-cases/task/update-status")
+
 
 
 
@@ -30,6 +32,11 @@ const getSingleTaskUseCase = new GetSingleTasks({
 })
 
 const updateTaskUseCase = new UpdateTasks({
+  taskRepository,
+  workflowRepository
+})
+
+const updateStatusUseCase = new UpdateStatus({
   taskRepository,
   workflowRepository
 })
@@ -189,6 +196,49 @@ module.exports = {
         error: error.message
       })
     }
+  },
+
+  async updateStatus(req, res) {
+
+    try {
+
+      const workflowId = req.params.workflowId
+      const taskId = req.params.taskId
+      const userId = req.user.userId
+
+       const { status } = req.body
+
+        const updatedTask = await updateTaskUseCase.execute({
+        taskId,
+        workflowId,
+        userId,
+        status
+      })
+
+      return res.status(200).json(updatedTask)
+    } catch (error) {
+       if (
+        error.message === "Workflow not found or access denied" ||
+        error.message === "Task not found in this workflow"
+      ) {
+        return res.status(404).json({
+          error: error.message
+        })
+      }
+
+      if (
+        error.message === "Invalid IDs provided"
+      ) {
+        return res.status(400).json({
+          error: error.message
+        })
+      }
+
+      return res.status(500).json({
+        error: error.message
+      })
+    }
+
   }
 
 
