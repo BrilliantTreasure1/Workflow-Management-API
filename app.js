@@ -26,6 +26,8 @@ app.get('/workflows/:workflowId/tasks', authMiddleware,taskController.listByWork
 app.get('/workflows/:workflowId/tasks/:taskId', authMiddleware,taskController.getSingle);
 app.put('/workflows/:workflowId/tasks/:taskId', authMiddleware,taskController.update);
 app.patch('/workflows/:workflowId/tasks/:taskId' , authMiddleware , taskController.updateStatus)
+app.delete("/workflows/:workflowId/tasks/:taskId",authMiddleware,taskController.delete)
+
 
 
 
