@@ -257,6 +257,19 @@ class TaskRepositoryPostgres {
     
   }
 
+  async deleteTask(taskId) {
+  const query = `
+    DELETE FROM tasks
+    WHERE id = $1
+    RETURNING id
+  `
+
+  const result = await pool.query(query, [taskId])
+
+  return result.rows[0] || null
+}
+
+
 
 }
 
