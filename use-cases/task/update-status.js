@@ -48,3 +48,5 @@ class UpdateStatus{
 
     }
 }
+
+module.exports = UpdateStatus
